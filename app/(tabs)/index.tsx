@@ -44,15 +44,17 @@ export default function HomeScreen() {
     <>
       {/* <ThemedView style={styles.titleContainer}> */}
       <AppHeader />
-        <ImageBackground source={imageUrl} style={styles.backgroundImage} resizeMode="cover">
-
-      <View style={styles.page}>
+      <ImageBackground
+        source={imageUrl}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <View style={styles.page}>
           <ThemedText type="title">Welcome!</ThemedText>
           {/* <EmailForm /> */}
-      </View>
-        </ImageBackground>
-</>
-      
+        </View>
+      </ImageBackground>
+    </>
   );
 }
 
@@ -76,20 +78,20 @@ const styles = StyleSheet.create({
   page: {
     opacity: 0.85,
     backgroundColor: "#CBDCEB",
-    color: 'white',
+    color: "white",
     height: "25%",
-    width: '50%',
+    width: "50%",
     padding: "2%",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "10%"
+    borderRadius: "10%",
   },
   backgroundImage: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
 
-    width: '100%',
-    height: '100%'
+    width: "100%",
+    height: "100%",
   },
 });
