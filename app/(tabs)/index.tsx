@@ -16,6 +16,7 @@ import EmailForm from "./form";
 // import Header from "@/components/header";
 // import { HelloWave } from "@/components/hello-wave";
 import { JSX } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const imageUrl = {
   uri: "https://springsmag.com/wp-content/uploads/2016/02/Screen-Shot-2023-04-27-at-3.30.53-PM.png",
@@ -27,6 +28,7 @@ const AppHeader = (props: any) => {
     //   source={imageUrl}
     //   style={styles.backgroundImage}
     //   >
+
     <Header
       backgroundColor="#BBDCE5"
       leftComponent={{ icon: "menu", color: "black" }}
@@ -34,7 +36,6 @@ const AppHeader = (props: any) => {
       rightComponent={{ icon: "home" }}
       {...props}
     />
-    // </ImageBackground>
   );
 };
 
@@ -43,17 +44,19 @@ export default function HomeScreen() {
     // <ScrollView stickyHeaderIndices={[0]}>
     <>
       {/* <ThemedView style={styles.titleContainer}> */}
-      <AppHeader />
-      <ImageBackground
-        source={imageUrl}
-        style={styles.backgroundImage}
-        resizeMode="cover"
-      >
-        <View style={styles.page}>
-          <ThemedText type="title">Welcome!</ThemedText>
-          {/* <EmailForm /> */}
-        </View>
-      </ImageBackground>
+      <SafeAreaView style={{ flex: 1 }}>
+        <AppHeader />
+        <ImageBackground
+          source={imageUrl}
+          style={styles.backgroundImage}
+          resizeMode="cover"
+        >
+          <View style={styles.page}>
+            <ThemedText type="title">Welcome!</ThemedText>
+            {/* <EmailForm /> */}
+          </View>
+        </ImageBackground>
+      </SafeAreaView>
     </>
   );
 }
