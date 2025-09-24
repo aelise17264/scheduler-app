@@ -14,12 +14,13 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Header } from "react-native-elements";
+import { Header, Icon } from "react-native-elements";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { RadioButton } from "react-native-paper";
+// import { RadioButton } from "react-native-paper";
 import DropDownPicker, { ItemType } from "react-native-dropdown-picker";
+// import RadioButtons from "./radiobuttons";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -52,6 +53,7 @@ function EmailForm() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
+  // const [selectedIcon, setSelectedIcon] = useState(false);
   const [openList, setOpenList] = useState(false);
   const [dropDownList, setDropDownList] = useState<ItemType<string>[]>([
     { label: "Will", value: "will" },
@@ -80,6 +82,14 @@ function EmailForm() {
     );
   };
 
+  const selectRadioButton = (value: string) => {
+    if (value === "2") {
+      setShowAddress(false);
+    } else {
+      setShowAddress(true);
+    }
+  };
+
   return (
     <>
       <AppHeader />
@@ -104,7 +114,7 @@ function EmailForm() {
             email: "",
             appointment: new Date(),
             formType: "",
-            address: "TBD",
+            // address: "TBD",
           }}
           validationSchema={validationSchema}
           // style={styles.form}
@@ -127,16 +137,19 @@ function EmailForm() {
                     value={values.name}
                     placeholder="Your Name"
                     autoCapitalize="words"
+                    style={styles.textInput}
                   />
                   <TextInput
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
                     value={values.email}
                     placeholder="Your Email"
+                    style={styles.textInput}
                   />
                   {/* <Text >Select a service:</Text> */}
                   <DropDownPicker
                     open={openList}
+                    style={styles.dropDown}
                     value={selectedValue}
                     items={dropDownList}
                     setOpen={setOpenList}
@@ -147,42 +160,90 @@ function EmailForm() {
                     }}
                     setItems={setDropDownList}
                     placeholder="Select a service:"
+                    dropDownContainerStyle={{
+                      width: "50%",
+                      margin: "auto",
+                      justifyContent: "center",
+                      alignSelf: "center",
+                    }}
+                    listMode="SCROLLVIEW"
                   />
                 </View>
-                <View style={{ justifyContent: "space-evenly", marginTop: 5 }}>
-                  <RadioButton.Group
-                    onValueChange={(newValue) => {
-                      (setFieldValue("location", newValue),
-                        setFieldValue("address", ""),
-                        setShowAddress(!showAddress));
-                    }}
-                    value={values.location}
-                  >
-                    <View style={styles.radioOption}>
-                      <View style={styles.travel1}>
-                        <RadioButton value="1" />
-                        <Text>You pick the place</Text>
-
-                        {showAddress && (
-                          <TextInput
-                            onChangeText={handleChange("address")}
-                            onBlur={handleBlur("address")}
-                            value={values.address}
-                            placeholder="Where to?"
+                <View style={styles.radioOption}>
+                  <View style={styles.travel1}>
+                    <Pressable
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginBottom: 10,
+                      }}
+                      onPress={() => (
+                        setFieldValue("location", "1"),
+                        selectRadioButton(values.location)
+                      )}
+                    >
+                      <View style={{ marginRight: 10 }}>
+                        {values.location === "1" ? (
+                          <Icon
+                            name="radio-button-checked"
+                            size={24}
+                            color="black"
+                          />
+                        ) : (
+                          <Icon
+                            name="radio-button-unchecked"
+                            size={24}
+                            color="gray"
                           />
                         )}
                       </View>
-                      <View style={styles.travel2}>
-                        <RadioButton value="2" />
-                        <Text>Meet at my office</Text>
-                        <Text>
-                          I'll send you the address with your confirmation
-                        </Text>
+                    </Pressable>
+                    <Text>Meet at my office</Text>
+                    <Text style={{fontSize: 12, fontStyle: "italic", color: "grey"}}>
+                      I'll send you the address with your confirmation
+                    </Text>
+                  </View>
+                  <View style={styles.travel2}>
+                    <Pressable
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginBottom: 10,
+                      }}
+                      onPress={() => (
+                        setFieldValue("location", "2"),
+                        selectRadioButton(values.location)
+                      )}
+                    >
+                      <View style={{ marginRight: 10 }}>
+                        {values.location === "2" ? (
+                          <Icon
+                            name="radio-button-checked"
+                            size={24}
+                            color="black"
+                          />
+                        ) : (
+                          <Icon
+                            name="radio-button-unchecked"
+                            size={24}
+                            color="gray"
+                          />
+                        )}
                       </View>
-                    </View>
-                  </RadioButton.Group>
+                    </Pressable>
+                    <Text>You pick the place</Text>
+                    {showAddress && (
+                      <TextInput
+                        onChangeText={handleChange("address")}
+                        onBlur={handleBlur("address")}
+                        value={values.address}
+                        placeholder="Where to?"
+                      />
+                    )}
+                  </View>
+         
                 </View>
-                <View>
+                <View style={styles.datePicker}>
                   <Button
                     title="Pick a Date"
                     onPress={() => setShowDatePicker(true)}
@@ -191,7 +252,8 @@ function EmailForm() {
                     <DateTimePicker
                       value={values.appointment}
                       mode="date"
-                      display={Platform.OS === "ios" ? "spinner" : "default"}
+                      // display={Platform.OS === "ios" ? "spinner" : "default"}
+                      style={{ margin: "auto" }}
                       onChange={(event: DateTimePickerEvent, date?: Date) => {
                         if (event.type === "set" && date) {
                           const updated = new Date(values.appointment);
@@ -216,7 +278,8 @@ function EmailForm() {
                     <DateTimePicker
                       value={values.appointment}
                       mode="time"
-                      display={Platform.OS === "ios" ? "spinner" : "default"}
+                      style={{ margin: "auto" }}
+                      // display={Platform.OS === "ios" ? "spinner" : "default"}
                       onChange={(event: DateTimePickerEvent, date?: Date) => {
                         if (event.type === "set" && date) {
                           const updated = new Date(values.appointment);
@@ -240,9 +303,9 @@ function EmailForm() {
                   }}
                   title="Submit"
                 />
-                <Text style={{ fontSize: 20 }}>
+                {/* <Text style={{ fontSize: 20 }}>
                   {JSON.stringify(values, null, 2)}
-                </Text>
+                </Text> */}
               </View>
             </View>
           )}
@@ -270,32 +333,54 @@ const styles = StyleSheet.create({
   },
   topForm: {
     textAlign: "center",
-
     alignItems: "center",
   },
   buttonContainer: {
     padding: 20,
-    backgroundColor: "yellow",
+    // backgroundColor: "yellow",
+  },
+  dropDown: {
+    width: "50%",
+    margin: "auto",
+    alignItems: "center",
+    justifyContent: "center",
   },
   radioOption: {
-    flexDirection: "row",
-
-    justifyContent: "space-between",
+    flexDirection: "row-reverse",
+    justifyContent: "space-evenly",
+    // alignItems: "center",
     borderColor: "black",
     padding: 5,
+    marginTop: 10,
+    // margin: "auto"
   },
+
   travel1: {
-    flex: 1,
+    flex: 2,
     textAlign: "center",
     alignContent: "center",
     justifyContent: "center",
-    paddingLeft: 25,
+    // paddingLeft: 25,
   },
   travel2: {
-    flex: 1,
-    textAlign: "center",
-    alignContent: "center",
-    justifyContent: "center",
+    flex: 2,
+    // textAlign: "center",
+    // alignContent: "center",
+    // justifyContent: "center",
+    paddingLeft: 25,
+  },
+  datePicker: {
+    justifyContent: "space-evenly",
+  },
+  textInput: {
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: "white",
+    color: "black",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginBottom: 10,
   },
 });
 
