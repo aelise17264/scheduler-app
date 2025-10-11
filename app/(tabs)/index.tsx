@@ -1,22 +1,15 @@
-import { Image } from "expo-image";
+// import { Image } from "expo-image";
 import {
   Platform,
   StyleSheet,
   ScrollView,
   ImageBackground,
   View,
+  Image,
 } from "react-native";
 import { Header, HeaderProps, ThemeProps } from "react-native-elements";
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { Link } from "expo-router";
-import EmailForm from "./form";
-// import Header from "@/components/header";
-// import { HelloWave } from "@/components/hello-wave";
-import { JSX } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const imageUrl = {
   uri: "https://springsmag.com/wp-content/uploads/2016/02/Screen-Shot-2023-04-27-at-3.30.53-PM.png",
@@ -44,19 +37,28 @@ export default function HomeScreen() {
     // <ScrollView stickyHeaderIndices={[0]}>
     <>
       {/* <ThemedView style={styles.titleContainer}> */}
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaProvider style={{ flex: 1 }}>
         <AppHeader />
         <ImageBackground
           source={imageUrl}
           style={styles.backgroundImage}
           resizeMode="cover"
         >
+          <View style={styles.reactLogo}>
+            <Image
+              source={{
+                uri: "https://m.media-amazon.com/images/I/61945714q6L._UF894,1000_QL80_.jpg",
+              }}
+              style={{ height: 100, width: 100 }}
+            />
+          </View>
           <View style={styles.page}>
             <ThemedText type="title">Welcome!</ThemedText>
+
             {/* <EmailForm /> */}
           </View>
         </ImageBackground>
-      </SafeAreaView>
+      </SafeAreaProvider>
     </>
   );
 }
@@ -72,10 +74,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+    top: 20,
+    left: 20,
     position: "absolute",
   },
   page: {

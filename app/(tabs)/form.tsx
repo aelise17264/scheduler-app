@@ -96,7 +96,7 @@ function EmailForm() {
       <View>
         <Formik
           onSubmit={(values: any) => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
 
             const subject = "New Notary Appointment Request";
             const body = `
@@ -199,7 +199,13 @@ function EmailForm() {
                       </View>
                     </Pressable>
                     <Text>Meet at my office</Text>
-                    <Text style={{fontSize: 12, fontStyle: "italic", color: "grey"}}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontStyle: "italic",
+                        color: "grey",
+                      }}
+                    >
                       I'll send you the address with your confirmation
                     </Text>
                   </View>
@@ -241,7 +247,6 @@ function EmailForm() {
                       />
                     )}
                   </View>
-         
                 </View>
                 <View style={styles.datePicker}>
                   <Button
@@ -344,6 +349,7 @@ const styles = StyleSheet.create({
     margin: "auto",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "transparent",
   },
   radioOption: {
     flexDirection: "row-reverse",
@@ -376,7 +382,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 5,
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     color: "black",
     paddingVertical: 10,
     paddingHorizontal: 20,
